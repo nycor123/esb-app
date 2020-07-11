@@ -1,0 +1,32 @@
+div {
+    background-color: rgba(0, 0, 0, 0.63);
+    color: white;
+}
+
+hr {
+    background-color: white;
+    height: 1.5px;
+}
+
+.reqMark {
+    color: red;
+}
+
+button {
+    background-color: rgba(128, 128, 128, 0.829);
+}
+
+.anyClass {
+    height: 90vh;
+    overflow-y: scroll;
+}
+
+div.row {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+@media screen and (max-width: 414px) {
+    label {
+      font-size: 3vw;
+    }
+}

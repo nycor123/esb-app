@@ -1,0 +1,20 @@
+.home-background {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.jumbotron {
+    background: none;
+    background-color: rgba(0, 0, 0, 0.212);
+    color: rgb(255, 255, 255);
+}
+
+.jumbotron hr {
+    background-color: rgb(255, 255, 255);
+}
+
+.jumbotron .btn {
+     background-color: rgba(228, 225, 225, 0.404);
+}
+

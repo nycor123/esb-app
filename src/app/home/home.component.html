@@ -1,0 +1,27 @@
+<div 
+    class="home-background row" 
+    style="height: 100vh; background-image: url('../assets/img/homeBg.jpeg');"
+    >
+    <div class="col-sm-12 my-auto">
+        <div 
+            class="jumbotron mx-auto" 
+            [ngClass]="jumbotronWidth"
+            *ngIf="showDeliveryDetails === false">
+            <h1 class="display-4">Hungry?</h1>
+            <p class="lead">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
+            <hr class="my-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan, ante ac egestas vestibulum, orci lacus.</p>
+            <p class="lead">
+                <a 
+                    class="btn btn-secondary btn-lg" 
+                    role="button" 
+                    (click)="showDeliveryDetails = !showDeliveryDetails">
+                Order Now
+                </a>    
+            </p>
+        </div>
+        <app-delivery-details *ngIf="showDeliveryDetails"></app-delivery-details>
+    </div>
+</div>
+
+
