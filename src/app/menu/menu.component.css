@@ -1,0 +1,29 @@
+.menu-background {
+    background-image: url('../../assets/img/menuBg.jpg');
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-y: scroll;
+}
+
+.menu-row {
+    width: 100vw;
+}
+
+.menu-nav ul {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+
+a {
+    color: white;
+}
+
+.nav-pills > li.active {
+    background-color: rgba(128, 128, 128, 0.726);
+}
