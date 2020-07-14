@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark" [ngClass]="mx">
+<div class="container-fluid ml-0 pl-0">
+  <nav class="navbar navbar-expand-lg navbar-dark mx-auto w-100" [ngClass]="mx">
     <a class="navbar-brand mr-5" href="#">EAT SLEEP <strong>BURGER</strong></a>
     <button 
         class="navbar-toggler" 
@@ -8,19 +9,19 @@
         aria-controls="navbarNav" 
         aria-expanded="false" 
         aria-label="Toggle navigation"
-        (click)="toggleNavbar = !toggleNavbar">
+        (click)="toggleIsMenuCollapsed()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse navbars" id="navbarNav" [ngbCollapse]="toggleNavbar">
+    <div class="collapse navbar-collapse navbars" id="navbarNav" [ngbCollapse]="isMenuCollapsed">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="home" (click)="toggleIsMenuCollapsed()">Home</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active"> 
+          <a class="nav-link" routerLink="menu" (click)="toggleIsMenuCollapsed()">Menu</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="#">Contact Us</a>
         </li>
       </ul>
 
@@ -33,7 +34,10 @@
         </li>
       </ul>
     </div>
-</nav>
+  </nav>
+</div>
+
+
 
     
 

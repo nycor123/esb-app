@@ -1,0 +1,6 @@
+nav {
+    background-color: rgba(0, 0, 0, 0.911);
+    position: fixed;
+    width: 100vw;
+    z-index: 1;
+}

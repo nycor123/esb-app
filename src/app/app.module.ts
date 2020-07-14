@@ -8,6 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DeliveryDetailsComponent } from './home/delivery-details/delivery-details.component';
+import { MenuModule } from './menu/menu.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { DeliveryDetailsComponent } from './home/delivery-details/delivery-detai
     BrowserModule,
     NgbModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  toggleNavbar = true;
+  isMenuCollapsed = true;
   mx = 'mx-5';
 
   constructor() { }
@@ -16,6 +16,10 @@ export class HeaderComponent implements OnInit {
     if (window.screen.width < 411) {
       this.mx = '';
     }
+  }
+
+  toggleIsMenuCollapsed() {
+    this.isMenuCollapsed = !this.isMenuCollapsed;
   }
 
 }

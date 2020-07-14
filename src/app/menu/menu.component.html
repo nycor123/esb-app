@@ -1,0 +1,25 @@
+<div class="menu-background container-fluid">
+
+    <div class="row">
+      <div class="col-12 mt-5 pt-4 mb-5">
+        <div class="menu-nav">
+          <ul class="nav nav-pills" [ngClass]="navJustifyCenter ? 'justify-content-center' : ''">
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link" routerLink="combos">COMBOS</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link" routerLink="burgers">BURGERS</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link" routerLink="drinks">DRINKS</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link" routerLink="extras">ADD-ONS</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>
