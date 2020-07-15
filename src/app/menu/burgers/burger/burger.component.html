@@ -1,0 +1,94 @@
+<div class="row mx-1">
+    <div class="col-xs-12 col-sm-6 mb-5">
+        <div class="card mx-auto">
+            <img class="card-img-top" [src]="burger.imgUrl" alt="">
+            <div class="card-body">
+              <h4 class="card-text">{{ burger.name | uppercase }}</h4>
+              <p class="card-text"> {{ burger.description }} </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 mb-5">
+        <form class="mx-auto" [formGroup]="burgerForm">
+            <h3>&#8369;{{ burger.price }}.00</h3>
+            <hr>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" (click)="onAddonClicked()" #addonCheckbox>
+                    Add-ons
+                </label>
+            </div>
+            <hr>
+            <div 
+                class="form-group d-flex justify-content-center mx-auto w-100"
+                *ngIf="showAddons">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>
+                            <input type="checkbox" formControlName="beefPatty">
+                            Beef Patty
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>
+                            <input type="checkbox" formControlName="bacon">
+                            Bacon
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>
+                            <input type="checkbox" formControlName="slicedCheese">
+                            Sliced Cheese
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>
+                            <input type="checkbox" formControlName="slicedHam">
+                            Sliced Ham
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>
+                            <input type="checkbox" formControlName="egg">
+                            Egg
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>
+                            <input type="checkbox" formControlName="mushroom">
+                            Mushroom
+                        </label>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            
+            <div class="form-group">
+                <label for="special-instructions">SPECIAL INSTRUCTIONS (OPTIONAL)</label>
+                <textarea 
+                    id="special-instructions" 
+                    class="form-control" 
+                    cols="30" 
+                    rows="3"
+                    formControlName="specialInstructions">
+                </textarea>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="quantity">Quantity: </label>
+                <input 
+                    type="number" 
+                    id="quantity" 
+                    class="form-control w-25"
+                    min="1"
+                    formControlName="quantity">
+            </div>
+            <button 
+                class="btn btn-secondary" 
+                (click)="onAddToCart()"
+                [disabled]="!burgerForm.valid">
+                Add To Cart
+            </button>
+        </form>
+    </div>
+</div>

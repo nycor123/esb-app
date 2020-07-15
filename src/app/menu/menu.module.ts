@@ -7,6 +7,8 @@ import { CombosComponent } from './combos/combos.component';
 import { DrinksComponent } from './drinks/drinks.component';
 import { ExtrasComponent } from './extras/extras.component';
 import { RouterModule } from '@angular/router';
+import { BurgerComponent } from './burgers/burger/burger.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -14,12 +16,14 @@ import { RouterModule } from '@angular/router';
         BurgersComponent,
         CombosComponent,
         DrinksComponent,
-        ExtrasComponent
+        ExtrasComponent,
+        BurgerComponent
     ],
     imports: [
         MenuRoutingModule,
         CommonModule,
-        RouterModule
+        RouterModule,
+        ReactiveFormsModule
     ]
 })
 export class MenuModule {}
