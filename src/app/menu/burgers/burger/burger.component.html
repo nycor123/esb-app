@@ -9,12 +9,12 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 mb-5">
-        <form class="mx-auto" [formGroup]="burgerForm">
-            <h3>&#8369;{{ burger.price }}.00</h3>
+        <form class="mx-auto" [formGroup]="burgerForm" (submit)="onAddToCart()">
+            <h3>&#8369;{{ totalPrice * this.burgerForm.controls['quantity'].value }}.00</h3>
             <hr>
             <div class="form-group">
                 <label>
-                    <input type="checkbox" (click)="onAddonClicked()" #addonCheckbox>
+                    <input type="checkbox" (change)="onAddonChanged()" #addonCheckbox>
                     Add-ons
                 </label>
             </div>
@@ -22,41 +22,14 @@
             <div 
                 class="form-group d-flex justify-content-center mx-auto w-100"
                 *ngIf="showAddons">
-                <div class="row">
-                    <div class="col-sm-4">
+                <div class="row" formGroupName="addonsCheckboxes">
+                    <div class="col-sm-4" *ngFor="let addOn of addOns">
                         <label>
-                            <input type="checkbox" formControlName="beefPatty">
-                            Beef Patty
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>
-                            <input type="checkbox" formControlName="bacon">
-                            Bacon
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>
-                            <input type="checkbox" formControlName="slicedCheese">
-                            Sliced Cheese
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>
-                            <input type="checkbox" formControlName="slicedHam">
-                            Sliced Ham
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>
-                            <input type="checkbox" formControlName="egg">
-                            Egg
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>
-                            <input type="checkbox" formControlName="mushroom">
-                            Mushroom
+                            <input 
+                                type="checkbox" 
+                                [formControlName]="addOn.name" 
+                                (change)="updateTotalPrice()">
+                            {{ addOn.name }} (&#8369;{{ addOn.price }})
                         </label>
                     </div>
                 </div>
@@ -75,17 +48,32 @@
             </div>
             <hr>
             <div class="form-group">
-                <label for="quantity">Quantity: </label>
-                <input 
-                    type="number" 
-                    id="quantity" 
-                    class="form-control w-25"
-                    min="1"
-                    formControlName="quantity">
+                <label for="quantity" class="mr-3">Quantity: </label>
+                <div class="quantityWidget">
+                    <button 
+                        type="button"
+                        class="btn btn-secondary" 
+                        (click)="onQuantityDec()"
+                        [disabled]="this.burgerForm.controls['quantity'].value < 2 ? true : false">-</button>
+                    <input 
+                        type="number" 
+                        readonly
+                        id="quantity" 
+                        class="w-25 py-1 pb-2"
+                        min="1"
+                        formControlName="quantity">
+                    <button 
+                        type="button"
+                        class="btn btn-secondary" 
+                        (click)="onQuantityInc()">+</button>
+                </div>
+            </div>
+            <div>
+                <span>Total: &#8369;{{ totalPrice * this.burgerForm.controls['quantity'].value }}</span>
             </div>
             <button 
-                class="btn btn-secondary" 
-                (click)="onAddToCart()"
+                type="submit"
+                class="btn btn-secondary mt-3" 
                 [disabled]="!burgerForm.valid">
                 Add To Cart
             </button>
