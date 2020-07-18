@@ -1,40 +1,33 @@
 <div class="row mx-1">
     <div class="col-xs-12 col-sm-6 mb-5">
         <div class="card mx-auto">
-            <img class="card-img-top" [src]="combo.imgUrl" alt="">
+            <img class="card-img-top" [src]="drink.imgUrl" alt="">
             <div class="card-body">
-              <h4 class="card-text">{{ combo.name | uppercase }}</h4>
-              <p class="card-text"> {{ combo.description }} </p>
+              <h4 class="card-text">{{ drink.name | uppercase }}</h4>
+              <p class="card-text"> {{ drink.description }} </p>
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 mb-5">
-        <form class="mx-auto" [formGroup]="comboForm" (submit)="onSubmit()">
-            <h3>&#8369;{{ comboPrice * comboForm.controls['quantity'].value }}.00</h3>
-            <hr>
-            <div class="row">
-                <span class="col-xs-12 w-75 ml-3 mb-3">Select Beverage:</span>
-                <div 
-                    class="col-sm-4 radio" 
-                    *ngFor="let drink of drinks">
-                    <label>
-                        <input 
-                            type="radio"
-                            name="drink"
-                            [value]="drink.name"
-                            formControlName="drink"
-                            (change)="onDrinkChange()">
-                        {{ drink.name }} 
-                        <app-additional 
-                            *ngIf="drink.price['small'] > 20" 
-                            [drinkPrice]="+drink.price['small']">
-                        </app-additional>
-                    </label>
-                </div>
-            </div>
-           
+        <form [formGroup]="drinkForm" (submit)="onSubmit()">
+            <h3>&#8369;{{ drink.price[size] * drinkForm.controls['quantity'].value }}.00</h3>
             <hr>
             <div class="form-group">
+                <div class="row">
+                    <span class="col-xs-12 w-75 ml-3 mb-3">Select Drink Size:</span>
+                    <div class="col-sm-4 radio" *ngFor="let drinkSize of drinkSizes">
+                        <label class="mx-auto">
+                            <input 
+                                type="radio" 
+                                name="drinkSize"
+                                formControlName="drinkSize" 
+                                [value]="drinkSize"
+                                (change)="onDrinkSizeChange()">
+                            {{ drinkSize | titlecase }}
+                        </label>
+                    </div>
+                </div>
+                <hr>
                 <label for="special-instructions">SPECIAL INSTRUCTIONS (OPTIONAL)</label>
                 <textarea 
                     id="special-instructions" 
@@ -52,7 +45,7 @@
                         type="button"
                         class="btn btn-secondary"
                         (click)="onDecreaseQuantity()"
-                        [disabled]="this.comboForm.controls['quantity'].value < 2">-</button>
+                        [disabled]="this.drinkForm.controls['quantity'].value < 2">-</button>
                     <input 
                         type="number" 
                         readonly
@@ -67,12 +60,12 @@
                 </div>
             </div>
             <div>
-                <span>Total: &#8369;{{ comboPrice * comboForm.controls['quantity'].value }}</span>
+                <span>Total: &#8369;{{ drink.price[size] * drinkForm.controls['quantity'].value }}</span>
             </div>
             <button 
                 type="submit"
                 class="btn btn-secondary mt-3"
-                [disabled]="!comboForm.valid">
+                [disabled]="!drinkForm.valid">
                 Add To Cart
             </button>
         </form>

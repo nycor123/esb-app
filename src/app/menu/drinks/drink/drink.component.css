@@ -1,0 +1,32 @@
+form label {
+    color: white;
+}
+
+hr {
+    background-color: white;
+    height: 1.5px;
+}
+
+h3 {
+    color: rgb(28, 165, 4);
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.308);
+    color: white;
+    border: rgba(232, 192, 73, 0.842) solid 7px;
+    border-radius: 0;
+    text-align: center;
+}
+
+button {
+    background-color: rgba(128, 128, 128, 0.493);
+}
+
+span {
+    color: white;
+}
+
+.quantityWidget .btn {
+    border-radius: 0;
+}

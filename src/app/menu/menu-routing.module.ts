@@ -7,6 +7,7 @@ import { DrinksComponent } from './drinks/drinks.component';
 import { ExtrasComponent } from './extras/extras.component';
 import { BurgerComponent } from './burgers/burger/burger.component';
 import { ComboComponent } from './combos/combo/combo.component';
+import { DrinkComponent } from './drinks/drink/drink.component';
 
 const routes: Routes = [
     { path: 'menu', component: MenuComponent, children: [
@@ -15,6 +16,7 @@ const routes: Routes = [
         { path: 'combos', component: CombosComponent },
         { path: 'combos/:id', component: ComboComponent },
         { path: 'drinks', component: DrinksComponent },
+        { path: 'drinks/:id', component: DrinkComponent },
         { path: 'extras', component: ExtrasComponent }
     ]}
 ];
