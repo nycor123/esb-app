@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DrinksService } from './drinks.service';
+import { Drink } from './drink.model';
 
 @Component({
   selector: 'app-drinks',
@@ -6,32 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./drinks.component.css']
 })
 export class DrinksComponent implements OnInit {
-  drinks = [
-    {
-      name: 'Pepsi',
-      imgUrl: '../assets/img/drinkPlaceholder.png',
-      price: '20'
-    },
-    {
-      name: 'Mountain Dew',
-      imgUrl: '../assets/img/drinkPlaceholder.png',
-      price: '20'
-    },
-    {
-      name: 'Lipton Iced Tea',
-      imgUrl: '../assets/img/drinkPlaceholder.png',
-      price: '25'
-    },
-    {
-      name: 'Mineral Water',
-      imgUrl: '../assets/img/drinkPlaceholder.png',
-      price: '15'
-    }
-  ];
+  drinks: Drink[];
 
-  constructor() { }
+  constructor(
+    private drinksService: DrinksService
+  ) { }
 
   ngOnInit(): void {
+    this.drinks = this.drinksService.getDrinks();
   }
 
 }

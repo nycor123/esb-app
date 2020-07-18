@@ -1,6 +1,10 @@
 .card {
     background-color: rgba(0, 0, 0, 0.308);
     color: white;
-    border: rgba(255, 255, 255, 0.698) solid 7px;
+    border: rgba(232, 192, 73, 0.842) solid 7px;
     border-radius: 0;
+}
+
+a {
+    text-decoration: none;
 }
