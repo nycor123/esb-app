@@ -9,7 +9,13 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DeliveryDetailsComponent } from './home/delivery-details/delivery-details.component';
 import { MenuModule } from './menu/menu.module';
-import { CommonModule } from '@angular/common';
+import { AuthModule } from './auth/auth.module';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -23,7 +29,14 @@ import { CommonModule } from '@angular/common';
     NgbModule,
     AppRoutingModule,
     HttpClientModule,
-    MenuModule
+    MenuModule,
+    AuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({ positionClass: 'inline' }),
+    ToastContainerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
