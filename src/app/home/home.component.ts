@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { AuthService } from '../auth/auth-service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService, ToastContainerDirective } from 'ngx-toastr';
 import { User } from '../auth/user.model';
 import { Subscription } from 'rxjs';
 
@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild(ToastContainerDirective, { static: true })
+  toastContainer: ToastContainerDirective;
 
   showDeliveryDetails = false;
   jumbotronWidth = '';
@@ -29,6 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     else if (window.screen.width > 1024) {
       this.jumbotronWidth = 'w-50';
     }
+
+    this.toastr.overlayContainer = this.toastContainer;
 
     this.userSub = this.authService.user.subscribe(user => {
       if (user) {
