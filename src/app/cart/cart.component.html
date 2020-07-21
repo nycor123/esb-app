@@ -1,0 +1,72 @@
+<div class="containter-fluid cart">
+    <div class="row mx-0 px-0">
+        <div class="col-xs-12 w-100 pt-5 mt-5">
+        <form>
+            <div class="row" [ngClass]="cartMargin">
+                <div class="col-xs-12 col-md-7 col-lg-8"> 
+                    <div 
+                        class="row mr-1 mb-3 item" 
+                        [ngClass]="itemMarginLeft"
+                        *ngFor="let cartItem of cartItems">
+                        <hr style="width: 100%;">
+                        <div class="col-xs-12 w-100 ml-2">
+                            <input type="checkbox">
+                        </div>
+                        <div class="media col-xs-12 col-lg-8 mb-3">
+                            <img 
+                                class="mr-3 img-fluid img-thumbnail"
+                                src="../../assets/img/burgerPlaceholder.png"  
+                                alt=""
+                                style="height: 150px; width: 150px;">
+                            <div class="media-body my-auto">
+                                <p class="mt-0">{{ cartItem['name'] }}</p>
+                                <p>{{ cartItem['extraInfo'] }}</p>
+                                <p>{{ cartItem['specialInstructions']}}</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-lg-2 mx-auto my-auto">
+                            <p>&#8369;{{ cartItem['price'] }}</p>
+                        </div>
+                        <div class="col-xs-12 col-lg-2 mx-auto my-auto">
+                            <p>Quantity: {{ cartItem['quantity'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-5 col-lg-4 order-summary mx-auto px-2 py-3 h-100 w-100">
+                    <p class="mb-0">Location</p>
+                    <p class="mb-4">Manila, Philippines</p>
+                    <hr class="mb-4">
+                    <div class="row">
+                        <div class="col-xs-12 ml-3 mb-3">
+                            <h5>Order Summary</h5>
+                        </div>
+                    </div>        
+                    <div class="row w-100">
+                        <div class="col-xs-12 w-100 ml-3">
+                            Subtotal 
+                            <p class="float-right">&#8369;0.00</p>
+                        </div>
+                    </div>
+                    <div class="row w-100">
+                        <div class="col-xs-12 w-100 ml-3">
+                            Delivery Fee 
+                            <p class="float-right">&#8369;0.00</p>
+                        </div>
+                    </div>
+                    <div class="row w-100">
+                        <div class="col-xs-12 w-100 ml-3">
+                            Total 
+                            <p class="float-right">&#8369;0.00</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 w-100 mx-3">
+                            <button class="btn btn-warning form-control">PLACE ORDER</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>  
+        </div> 
+    </div>
+</div>

@@ -16,6 +16,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
+import { CartComponent } from './cart/cart.component';
+import { CartModule } from './cart/cart.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
     AngularFirestoreModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({ positionClass: 'inline' }),
-    ToastContainerModule
+    ToastContainerModule,
+    CartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
