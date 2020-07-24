@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComboComponent } from './combos/combo/combo.component';
 import { AdditionalComponent } from './combos/combo/additional.component';
 import { DrinkComponent } from './drinks/drink/drink.component';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -29,7 +31,10 @@ import { DrinkComponent } from './drinks/drink/drink.component';
         MenuRoutingModule,
         CommonModule,
         RouterModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToastrModule.forRoot({ positionClass: 'inline' }),
+        ToastContainerModule,
+        HttpClientModule
     ]
 })
 export class MenuModule {}

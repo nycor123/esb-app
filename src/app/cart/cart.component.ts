@@ -1,48 +1,48 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { CartService } from './cart.service';
+import { CartItem } from './cart-item.model';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { DataStorageService } from '../shared/data-storage.service';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   cartMargin: string;
   itemMarginLeft: string;
+  cartItems: CartItem[];
+  subtotal: number = 0;
+  cartForm: FormGroup;
+  cartSub: Subscription;
+  @ViewChild(ToastContainerDirective, { static: true })
+  toastContainer: ToastContainerDirective;
 
-  cartItems = [
-    {
-      name: "Single Quarter Pounder",
-      price: 120,
-      quantity: 1,
-      specialInstructions: "no onions",
-      addons: [
-        "Beef Patty",
-        "Sliced Ham"
-      ],
-      extraInfo: 'Addons: Beef Patty, Sliced Ham'
-    },
-    {
-      name: "Breakfast Special",
-      price: 150,
-      quantity: 1,
-      specialInstructions: "",
-      drink: "Fiji",
-      extraInfo: 'Drink: Fiji'
-    },
-    {
-      name: "Mountain Dew",
-      price: 30,
-      quantity: 1,
-      specialInstructions: "",
-      drinkSize: "medium",
-      extraInfo: "Size: Medium"
-    }
-  ];
-
-  constructor() { }
+  constructor(
+    private cartService: CartService,
+    private dataStorageService: DataStorageService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.updateMargins(window.screen.width);
+    this.toastr.overlayContainer = this.toastContainer;
+
+    this.cartSub = this.cartService.cartSubject
+    .subscribe(cartItems => {
+      this.cartItems = cartItems;
+      this.initForm();
+    });
+
+    this.dataStorageService.fetchUserCartItems()
+    .subscribe(cartItems => this.cartService.loadCart());
+  }
+
+  ngOnDestroy() {
+    this.cartSub.unsubscribe();
   }
 
   @HostListener('window: resize', ['$event'])
@@ -62,4 +62,65 @@ export class CartComponent implements OnInit {
     }
   }
 
+  updateSubtotal() {
+    this.subtotal = 0;
+
+    for (let cartItem in this.cartItems) {
+      if (this.cartForm.controls[cartItem].value.selected === true) {
+        this.subtotal += this.cartItems[cartItem].price;
+      }
+    }
+  }
+
+  initForm() {
+    let formGroups = {};
+
+    for (let cartItem in this.cartItems) {
+      formGroups[cartItem] = new FormGroup({
+        'selected': new FormControl(),
+        'quantity': new FormControl()
+      });
+    }
+
+    this.cartForm = new FormGroup(formGroups);
+    
+    for (let cartItem in this.cartItems) {
+      let quantity = this.cartItems[cartItem].quantity;
+      this.cartForm.controls[cartItem].patchValue({'quantity': quantity});
+    }
+  }
+
+  onQuantityChange(id: number, mode: string) {
+    let checkboxes = {};
+    // store checkbox value for each control
+    for (let cartItem in this.cartItems) {
+      checkboxes[cartItem] = this.cartForm.controls[cartItem].value.selected
+    }
+    // increase or decrease item quantity
+    if (mode === 'increase') {
+      this.cartService.increaseCartItemQty(id);
+    } else {
+      this.cartService.decreaseCartItemQty(id);
+    }
+    // restore checbox value for each control
+    for (let cartItem in this.cartItems) {
+      if (checkboxes[cartItem] === true) {
+        this.cartForm.controls[cartItem].patchValue({selected: true});
+      }
+    }
+    
+    this.updateSubtotal();
+  }
+
+  onDeleteItem(cartItem: CartItem) {
+    this.dataStorageService.deleteUserCartItem(cartItem)
+    .subscribe(res => {
+      this.dataStorageService.fetchUserCartItems()
+      .subscribe(cartItems => {
+        this.subtotal = 0;
+        this.cartService.loadCart();
+        this.toastr.info("Item deleted.");
+      });
+    })
+  }
 }

@@ -36,6 +36,7 @@ export class AuthService {
         return new Promise<any>((resolve, reject) => {
             let provider = new firebase.auth.FacebookAuthProvider();
             this.afAuth.signInWithRedirect(provider);
+
             this.afAuth.getRedirectResult()
             .then((res) => {
                 resolve(res);

@@ -1,34 +1,64 @@
 <div class="containter-fluid cart">
+    <div class="row h-25 mt-5 ml-2" style="position: fixed; z-index: 1;">
+        <div class="col-xs-12 w-25 mt-3" toastContainer>
+        </div>
+    </div>
     <div class="row mx-0 px-0">
         <div class="col-xs-12 w-100 pt-5 mt-5">
-        <form>
+        <form [formGroup]="cartForm">
             <div class="row" [ngClass]="cartMargin">
                 <div class="col-xs-12 col-md-7 col-lg-8"> 
                     <div 
                         class="row mr-1 mb-3 item" 
                         [ngClass]="itemMarginLeft"
-                        *ngFor="let cartItem of cartItems">
-                        <hr style="width: 100%;">
-                        <div class="col-xs-12 w-100 ml-2">
-                            <input type="checkbox">
-                        </div>
-                        <div class="media col-xs-12 col-lg-8 mb-3">
-                            <img 
-                                class="mr-3 img-fluid img-thumbnail"
-                                src="../../assets/img/burgerPlaceholder.png"  
-                                alt=""
-                                style="height: 150px; width: 150px;">
-                            <div class="media-body my-auto">
-                                <p class="mt-0">{{ cartItem['name'] }}</p>
-                                <p>{{ cartItem['extraInfo'] }}</p>
-                                <p>{{ cartItem['specialInstructions']}}</p>
+                        *ngFor="let cartItem of cartItems; let i = index">
+                        <div [formGroupName]="i" class="w-100">
+                            <div class="media col-xs-12 col-lg-12 mb-3 mt-3">
+                                <img 
+                                    class="mr-3 img-fluid img-thumbnail"
+                                    [src]="cartItem.imgUrl"  
+                                    alt=""
+                                    style="height: 150px; width: 150px;">
+                                <div class="media-body my-auto">
+                                    <p class="mt-0">{{ cartItem['name'] }}</p>
+                                    <p>{{ cartItem['extraInfo'] }}</p>
+                                    <p>{{ cartItem['specialInstructions']}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-2 mx-auto my-auto">
-                            <p>&#8369;{{ cartItem['price'] }}</p>
-                        </div>
-                        <div class="col-xs-12 col-lg-2 mx-auto my-auto">
-                            <p>Quantity: {{ cartItem['quantity'] }}</p>
+                            <div class="col-xs-12 col-lg-12 mx-auto my-auto">
+                                <p>
+                                    <input 
+                                    type="checkbox"
+                                    formControlName="selected"
+                                    (change)="updateSubtotal()">
+                                    &#8369;{{ cartItem['price'] }}
+                                </p>
+                            </div>
+                            <div class="col-xs-12 col-lg-12 mx-auto mb-3">
+                                <label for="quantity">Quantity: </label>
+                                <div class="quantityWidget mb-2">
+                                    <button 
+                                        type="button"
+                                        class="btn btn-secondary" 
+                                        (click)="onQuantityChange(i, 'decrease')"
+                                        [disabled]="cartItem.quantity < 2">-</button>
+                                    <input 
+                                        type="number" 
+                                        readonly
+                                        id="quantity" 
+                                        class="quantity"
+                                        formControlName="quantity">
+                                    <button 
+                                        type="button"
+                                        class="btn btn-secondary" 
+                                        (click)="onQuantityChange(i, 'increase')">+</button>
+                                    <a 
+                                        class = "float-right" 
+                                        style="color: red; cursor: pointer;"
+                                        (click)="onDeleteItem(cartItem)">
+                                    Delete</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,24 +74,24 @@
                     <div class="row w-100">
                         <div class="col-xs-12 w-100 ml-3">
                             Subtotal 
-                            <p class="float-right">&#8369;0.00</p>
+                            <p class="float-right">&#8369;{{ +subtotal }}</p>
                         </div>
                     </div>
                     <div class="row w-100">
                         <div class="col-xs-12 w-100 ml-3">
                             Delivery Fee 
-                            <p class="float-right">&#8369;0.00</p>
+                            <p class="float-right">&#8369;0</p>
                         </div>
                     </div>
                     <div class="row w-100">
                         <div class="col-xs-12 w-100 ml-3">
                             Total 
-                            <p class="float-right">&#8369;0.00</p>
+                            <p class="float-right">&#8369;0</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 w-100 mx-3">
-                            <button class="btn btn-warning form-control">PLACE ORDER</button>
+                            <button class="btn btn-warning form-control submit">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>

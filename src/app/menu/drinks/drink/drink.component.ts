@@ -3,6 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Drink } from '../drink.model';
 import { DrinksService } from '../drinks.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CartItem } from 'src/app/cart/cart-item.model';
+import { CartService } from 'src/app/cart/cart.service';
+import { AuthService } from 'src/app/auth/auth-service';
 
 @Component({
   selector: 'app-drink',
@@ -19,7 +22,9 @@ export class DrinkComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private drinksService: DrinksService,
-    private router: Router
+    private router: Router,
+    private cartService: CartService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -39,18 +44,27 @@ export class DrinkComponent implements OnInit {
     this.drinkForm = new FormGroup({
       'drinkSize': new FormControl(),
       'specialInstructions': new FormControl(),
-      'quantity': new FormControl(1, Validators.required)
+      'quantity': new FormControl(1, Validators.required),
     });
   }
 
   onSubmit() {
-    let cartItem = {
-      ...this.drinkForm.value,
+    if (this.authService.isLoggedIn == false) {
+      return this.router.navigate(['auth']);
+    }
+
+    let extraInfo = "Size: " + this.drinkForm.controls['drinkSize'].value;
+    // ADDING OF ITEM TO CART
+    let cartItem: CartItem = {
       name: this.drink.name,
-      price: this.drink.price[this.size] * this.drinkForm.controls['quantity'].value
+      extraInfo: extraInfo,
+      imgUrl: this.drink.imgUrl,
+      price: this.drink.price[this.size] * this.drinkForm.controls['quantity'].value,
+      quantity: this.drinkForm.controls['quantity'].value,
+      specialInstructions: this.drinkForm.controls['specialInstructions'].value
     };
 
-    console.log(cartItem);
+    this.cartService.addItemToCart(cartItem);
     this.router.navigate(['menu']);
   }
 
