@@ -29,4 +29,15 @@ span {
 
 .quantityWidget .btn {
     border-radius: 0;
+    width: 35px;
+    height: 35px;
+    font-size: 15px;
+}
+
+.quantityWidget input {
+    width: 45px;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    color: white;
+    text-align: center;
 }
