@@ -20,6 +20,8 @@ export class CartComponent implements OnInit, OnDestroy {
   cartSub: Subscription;
   @ViewChild(ToastContainerDirective, { static: true })
   toastContainer: ToastContainerDirective;
+  address: string;
+  showDeliveryDetails: boolean = false;
 
   constructor(
     private cartService: CartService,
@@ -30,6 +32,7 @@ export class CartComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.updateMargins(window.screen.width);
     this.toastr.overlayContainer = this.toastContainer;
+    this.setAddress();
 
     this.cartSub = this.cartService.cartSubject
     .subscribe(cartItems => {
@@ -122,5 +125,48 @@ export class CartComponent implements OnInit, OnDestroy {
         this.toastr.info("Item deleted.");
       });
     })
+  }
+
+  setAddress() {
+    let address = JSON.parse(localStorage.getItem('address'));
+
+    if (address) {
+      address.street += " Street";
+
+      if (address.building) {
+        this.address =
+          address.houseUnitFloorNo
+          + " "
+          + address.building
+          + " "
+          + address.street
+          + " "
+          + address.barangay
+          + " " + address.municipality
+          + ", "
+          + address.province;
+      } else {
+        this.address =
+          address.houseUnitFloorNo
+          + " "
+          + address.street
+          + " "
+          + address.barangay
+          + " " + address.municipality
+          + ", "
+          + address.province;
+      }
+    } else {
+      this.address = "Address not provided.";
+    }
+  }
+
+  onClose(event) {
+    this.showDeliveryDetails = false;
+    this.setAddress(); // TODO: make this call only when the stored address is actually changed
+  }
+
+  onShowAddressForm() {
+    this.showDeliveryDetails = true;
   }
 }

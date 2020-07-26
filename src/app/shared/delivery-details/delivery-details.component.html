@@ -1,35 +1,40 @@
 <div class="mx-auto p-5 text-center anyClass" [ngClass]="compWidthClass">
     <span>WHERE TO?</span>
     <hr>
-    <form class="text-left">
+    <form class="text-left" [formGroup]="addressForm" (submit)="onSubmit()">
         <label for="houseUnitFloorNo" class="ml-5">HOUSE NO./UNIT NO./FLOOR NO. <span class="reqMark">*</span></label>
         <input 
             id="houseUnitFloorNo"
             class="form-control mb-3 w-75 mx-auto" 
             type="text" 
-            placeholder="HOUSE NO./UNIT NO./FLOOR NO.">
+            placeholder="HOUSE NO./UNIT NO./FLOOR NO."
+            formControlName="houseUnitFloorNo">
         <input 
             class="form-control mb-3 w-75 mx-auto" 
             type="text" 
-            placeholder="BUILDING">
+            placeholder="BUILDING"
+            formControlName="building">
         <label for="street" class="ml-5">STREET <span class="reqMark">*</span></label>
         <input 
             id="street"
             class="form-control mb-3 w-75 mx-auto" 
             type="text" 
-            placeholder="STREET">
+            placeholder="STREET"
+            formControlName="street">
         <label for="barangay" class="ml-5">BARANGAY <span class="reqMark">*</span></label>
         <input 
             id="barangay"
             class="form-control mb-3 w-75 mx-auto" 
             type="text" 
-            placeholder="BARANGAY">
+            placeholder="BARANGAY"
+            formControlName="barangay">
         <label for="province" class="ml-5">PROVINCE <span class="reqMark">*</span></label>
         <select 
             class="form-control mb-3 w-75 mx-auto" 
             name="" 
             id="province" 
-            (change)="onProvinceChanged($event)">
+            (change)="onProvinceChanged($event)"
+            formControlName="province">
             <option value="null" [disabled]="true">- SELECT PROVINCE -</option>
             <option 
                 *ngFor="let province of provinces"
@@ -41,7 +46,8 @@
         <select 
             class="form-control mb-3 w-75 mx-auto"
             name="" 
-            id="municipality">
+            id="municipality"
+            formControlName="municipality">
             <option value="null" [disabled]="true">CITY / MUNICIPALITY</option>
             <option
                 *ngFor="let municipality of municipalities" 
@@ -50,10 +56,15 @@
             </option>
         </select>
         <div class="row">
-            <button type="submit" class="btn btn-secondary form-control mb-3 w-50 mx-auto">GO BACK</button>
+            <a type="button" class="btn btn-secondary form-control mb-3 w-50 mx-auto" (click)="onBack()">GO BACK</a>
         </div>
         <div class="row">
-            <button type="submit" class="btn btn-secondary form-control mb-3 w-50 mx-auto">CONTINUE</button>
+            <button 
+                type="submit"
+                [disabled]="!addressForm.valid"
+                class="btn btn-secondary form-control mb-3 w-50 mx-auto">
+                CONTINUE
+            </button>
         </div>
         
     </form>

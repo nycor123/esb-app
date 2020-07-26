@@ -50,4 +50,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
   }
 
+  onClose(event) {
+    this.showDeliveryDetails = false;
+  }
+
 }
