@@ -2,9 +2,11 @@ import { Component, OnInit, HostListener, OnDestroy, ViewChild } from '@angular/
 import { CartService } from './cart.service';
 import { CartItem } from './cart-item.model';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { CartToCheckoutService } from '../shared/cart-to-checkout.service';
 
 @Component({
   selector: 'app-cart',
@@ -22,11 +24,14 @@ export class CartComponent implements OnInit, OnDestroy {
   toastContainer: ToastContainerDirective;
   address: string;
   showDeliveryDetails: boolean = false;
+  selectAllText = "Select All";
 
   constructor(
     private cartService: CartService,
     private dataStorageService: DataStorageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
+    private cartToCheckoutService: CartToCheckoutService
   ) { }
 
   ngOnInit(): void {
@@ -169,4 +174,34 @@ export class CartComponent implements OnInit, OnDestroy {
   onShowAddressForm() {
     this.showDeliveryDetails = true;
   }
+
+  onSelectAll($event) {
+    if ($event.target.checked == true) {
+      for (let cartItem in this.cartItems) {
+        this.cartForm.controls[cartItem].patchValue({ 'selected': true });
+      }
+      this.selectAllText = "Deselect All";
+    } else {
+      for (let cartItem in this.cartItems) {
+        this.cartForm.controls[cartItem].patchValue({ 'selected': false });
+      }
+      this.selectAllText = "Select All";
+    }
+   
+    this.updateSubtotal();
+  }
+
+  onSubmit() {
+    let items: CartItem[] = [];
+
+    for (let cartItem in this.cartItems) {
+      if (this.cartForm.controls[cartItem].value.selected === true) {
+        items.push(this.cartItems[cartItem]);
+      }
+    }
+
+    this.cartToCheckoutService.setSelectedCartItems(items);
+    this.router.navigate(['checkout']);
+  }
+
 }

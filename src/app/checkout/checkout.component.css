@@ -1,0 +1,16 @@
+.checkout {
+    background-image: url('../../assets/img/menuBg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow-y: scroll;
+    color: white;
+}
+
+table {
+    color: white;
+}
+
+.requiredMark {
+    color: rgb(250, 42, 42);
+}

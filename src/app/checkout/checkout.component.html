@@ -1,0 +1,89 @@
+<div class="container-fluid checkout">
+    <div class="row w-100 mx-auto">
+        <div class="col-xs-12 w-100 mt-5 pt-4"></div>
+        <div class="col-xs-12 w-100" *ngIf="showDeliveryDetails">
+          <app-delivery-details (close)="onClose($event)">
+          </app-delivery-details>
+        </div>
+        <div class="col-xs-12 col-md-6 w-100">
+          <app-order-confirm *ngIf="orderPlaced" [orderId]="orderId">
+          </app-order-confirm>
+        </div>
+        <div class="col-xs-12 col-lg-8 mx-auto w-75" *ngIf="!showDeliveryDetails && !orderPlaced">
+            <div class="contactForm">
+                <h5>Billing details</h5>
+                <form id="contactForm" [formGroup]="contactForm" (submit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="firstName">First name <span class="requiredMark">*</span></label>
+                        <input type="text" id="firstName" class="form-control" formControlName="firstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last name <span class="requiredMark">*</span></label>
+                        <input type="text" id="lastName" class="form-control" formControlName="lastName">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Mobile number <span class="requiredMark">*</span></label>
+                        <input 
+                          type="tel" 
+                          id="phoneNumber" 
+                          class="form-control" 
+                          formControlName="phoneNumber"
+                          pattern="[0-9]{4}[0-9]{3}[0-9]{4}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email <span class="requiredMark">*</span></label>
+                        <input type="email" id="email" class="form-control" formControlName="email">
+                    </div>
+                    <div>
+                        <p class="mb-2">Address: </p>
+                        <p>{{ address | titlecase }} 
+                          <a (click)="onShowAddressForm()">
+                            <em style="color: rgb(0, 174, 255); cursor: pointer;">
+                            Edit
+                            </em>
+                          </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-4 mx-auto w-75" *ngIf="!showDeliveryDetails && !orderPlaced">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of itemsToCheckout">
+                    <td>{{ item.name }} x{{ item.quantity }} {{ item.extraInfo }}</td>
+                    <td>&#8369;{{ item.price }}</td>
+                  </tr>
+                  <tr>
+                    <td>Subtotal</td>
+                    <td>&#8369;{{ subtotal }}</td>
+                  </tr>
+                  <tr>
+                    <td>Shipping</td>
+                    <td>&#8369;50</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>&#8369;{{ subtotal + 50 }}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                  <p>Cash On Delivery</p>
+                  <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
+                  <button 
+                    class="btn btn-primary form-control mb-3" 
+                    type="submit"
+                    form="contactForm"
+                    [disabled]="!contactForm.valid">
+                    PLACE ORDER</button>
+              </div>
+        </div>
+    </div>
+</div>

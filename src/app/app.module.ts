@@ -18,6 +18,7 @@ import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 import { CartModule } from './cart/cart.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SharedModule } from './shared/shared.module';
     ToastContainerModule,
     CartModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    CheckoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

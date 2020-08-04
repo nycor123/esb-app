@@ -36,10 +36,15 @@ export class DataStorageService {
     }
 
     deleteUserCartItem(cartItem: CartItem) {
-      const user = JSON.parse(localStorage.getItem('user'));
-      let uid = user['uid'];
-      let deleteUrl = 'https://esb-app-fe500.firebaseio.com/' + uid + '/cartItems/' + cartItem.id + '.json';
+        const user = JSON.parse(localStorage.getItem('user'));
+        let uid = user['uid'];
+        let deleteUrl = 'https://esb-app-fe500.firebaseio.com/' + uid + '/cartItems/' + cartItem.id + '.json';
 
-      return this.http.delete(deleteUrl);
+        return this.http.delete(deleteUrl);
+    }
+
+    addOrder(order: any) {
+        let postUrl = 'https://esb-app-fe500.firebaseio.com/orders.json';
+        return this.http.post(postUrl, order);
     }
 }

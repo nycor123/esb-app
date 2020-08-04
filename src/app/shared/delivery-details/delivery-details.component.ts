@@ -106,7 +106,7 @@ export class DeliveryDetailsComponent implements OnInit {
             return this.router.navigate(['auth']);
         } else if (this.authService.isLoggedIn && this.router.url === '/home') {
             this.router.navigate(['menu']);
-        } else if (this.authService.isLoggedIn && this.router.url === '/cart') {
+        } else {
             this.close.emit(false);
         }
     }
