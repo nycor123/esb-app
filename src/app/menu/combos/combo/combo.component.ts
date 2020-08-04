@@ -6,6 +6,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from '../../../shared/custom-validators';
 import { Drink } from '../../drinks/drink.model';
 import { DrinksService } from '../../drinks/drinks.service';
+import { CartItem } from 'src/app/cart/cart-item.model';
+import { CartService } from 'src/app/cart/cart.service';
+import { AuthService } from 'src/app/auth/auth-service';
 
 @Component({
   selector: 'app-combo',
@@ -23,7 +26,9 @@ export class ComboComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private combosService: CombosService,
-    private drinksService: DrinksService
+    private drinksService: DrinksService,
+    private cartService: CartService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -49,12 +54,22 @@ export class ComboComponent implements OnInit {
   }
 
   onSubmit() {
-    let cartItem = {
-      ...this.comboForm.value,
+    if (this.authService.isLoggedIn == false) {
+      return this.router.navigate(['auth']);
+    }
+
+    let extraInfo = "Drink: " + this.comboForm.controls['drink'].value;
+    let cartItem: CartItem = {
       name: this.combo.name,
-      price: this.comboPrice * this.comboForm.controls['quantity'].value
+      extraInfo: extraInfo,
+      imgUrl: this.combo.imgUrl,
+      price: this.comboPrice * this.comboForm.controls['quantity'].value,
+      quantity: this.comboForm.controls['quantity'].value,
+      specialInstructions: this.comboForm.controls['specialInstructions'].value
     };
     console.log(cartItem);
+    // ADDING OF ITEM TO CART
+    this.cartService.addItemToCart(cartItem);
     this.router.navigate(['/menu']);
   }
 

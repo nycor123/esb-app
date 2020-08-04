@@ -36,6 +36,7 @@ export class AuthService {
         return new Promise<any>((resolve, reject) => {
             let provider = new firebase.auth.FacebookAuthProvider();
             this.afAuth.signInWithRedirect(provider);
+
             this.afAuth.getRedirectResult()
             .then((res) => {
                 resolve(res);
@@ -54,6 +55,7 @@ export class AuthService {
     SignOut() {
         return this.afAuth.signOut().then(() => {
             localStorage.removeItem('user');
+            localStorage.removeItem('address');
             this.user.next();
         })
     }

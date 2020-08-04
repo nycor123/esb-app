@@ -6,6 +6,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from '../../../shared/custom-validators';
 import { AddonsService } from './addons.service';
 import { Addon } from './addon.model';
+import { CartService } from 'src/app/cart/cart.service';
+import { CartItem } from 'src/app/cart/cart-item.model';
+import { AuthService } from 'src/app/auth/auth-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-burger',
@@ -24,8 +28,11 @@ export class BurgerComponent implements OnInit {
   constructor(
     private burgersService: BurgersService,
     private addonsService: AddonsService,
+    private cartService: CartService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +58,12 @@ export class BurgerComponent implements OnInit {
   }
 
   onAddToCart() {
+    if (this.authService.isLoggedIn == false) {
+      return this.router.navigate(['auth']);
+    }
+
     let addons = [];
+    let extraInfo = '';
 
     for (let addon of this.addOns) {
       if (this.burgerForm.value.addonsCheckboxes[addon.name] === true) {
@@ -59,15 +71,20 @@ export class BurgerComponent implements OnInit {
       }
     }
 
-    let cartItem = {
-      name: this.burger.name,
-      addons: addons,
-      quantity: this.burgerForm.value['quantity'],
-      price: this.totalPrice * this.burgerForm.value['quantity'],
-      specialInstructions: this.burgerForm.value['specialInstructions']
+    if (addons.length > 0) {
+      extraInfo = "Addons: " + addons.toString();
     }
+    // ADDING OF ITEM TO CART
+    let cartItem: CartItem = {
+      name: this.burger.name,
+      extraInfo: extraInfo,
+      imgUrl: this.burger.imgUrl,
+      price: this.totalPrice * this.burgerForm.value['quantity'],
+      quantity: this.burgerForm.value['quantity'],
+      specialInstructions: this.burgerForm.value['specialInstructions']
+    };
 
-    console.log(cartItem);
+    this.cartService.addItemToCart(cartItem);
     this.router.navigate(['/menu']);
   }
 

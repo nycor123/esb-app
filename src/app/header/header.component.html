@@ -33,7 +33,7 @@
             {{ this.authService.isLoggedIn ? 'Logout' : 'Login' }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Cart <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="cart" (click)="toggleIsMenuCollapsed()">Cart <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Facebook</a>
